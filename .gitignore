@@ -1,0 +1,6 @@
+ll_env/
+*.log
+*.pyc
+__pycache__/
+db-volumes/
+db.sqlite3

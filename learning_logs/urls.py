@@ -6,7 +6,6 @@ from . import views
 
 app_name = 'learning_logs'
 
-app_name = 'learning_logs'
 urlpatterns = [
     # ホームページ
     path('', views.index, name='index'),

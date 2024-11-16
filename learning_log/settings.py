@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # 自分のアプリケーション
     'learning_logs',
+    'users',
 
     # デフォルトの django アプリケーション
     'django.contrib.admin',

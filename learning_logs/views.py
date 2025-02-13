@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
@@ -22,6 +23,10 @@ def topics(request):
 def topic(request, topic_id):
     """1つのトピックとそれに関連する全てのエントリを表示する"""
     topic = Topic.objects.get(id=topic_id)
+    # ユーザーが正しいトピックを所有しているか確認する
+    if topic.owner != request.user:
+        return Http404
+
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)

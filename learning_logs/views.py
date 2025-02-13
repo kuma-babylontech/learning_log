@@ -59,6 +59,7 @@ def new_topic(request):
 def new_entry(request, topic_id):
     """特定のトピックに新しいエントリを追加する"""
     topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(topic, request.user)
 
     if request.method != 'POST':
         # データが提出されていないので空のフォームを作る

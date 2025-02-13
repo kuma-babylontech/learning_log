@@ -6,6 +6,12 @@ from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
 
+def check_topic_owner(topic, user):
+    """トピックが現在のユーザーのものか確認する"""
+    if topic.owner != user:
+        raise Http404
+
+
 def index(request):
     """学習ノートのホームページ"""
     return render(request, 'learning_logs/index.html')
@@ -23,9 +29,7 @@ def topics(request):
 def topic(request, topic_id):
     """1つのトピックとそれに関連する全てのエントリを表示する"""
     topic = Topic.objects.get(id=topic_id)
-    # ユーザーが正しいトピックを所有しているか確認する
-    if topic.owner != request.user:
-        return Http404
+    check_topic_owner(topic, request.user)
 
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
@@ -78,9 +82,7 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
 
-    # ユーザーが正しいトピックを所有しているか確認する
-    if topic.owner != request.user:
-        return Http404
+    check_topic_owner(topic, request.user)
 
     if request.method != 'POST':
         # 初回リクエスト、現在のエントリをフォームに表示する

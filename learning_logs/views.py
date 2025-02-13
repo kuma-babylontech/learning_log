@@ -76,6 +76,10 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
 
+    # ユーザーが正しいトピックを所有しているか確認する
+    if topic.owner != request.user:
+        return Http404
+
     if request.method != 'POST':
         # 初回リクエスト、現在のエントリをフォームに表示する
         form = EntryForm(instance=entry)

@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light mb-4 border">
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border">
     <a class="navbar-brand" href="{% url 'learning_logs:index' %}">学習ノート</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -28,7 +28,10 @@
           <li class="nav-item">
             <span class="navbar-text">こんにちは {{ user.username }}さん</span>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'users:logout' %}">ログアウト</a>
+            <form method="POST" action="{% url 'users:logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 8px 0 0 16px; border: none; background: none;">ログアウト</button>
+            </form>
           </li>
         {% else %}
           <li class="nav-item">
